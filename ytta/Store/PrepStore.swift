@@ -18,15 +18,26 @@ final class PrepStore: ObservableObject {
 
     private static let storageKey = "morning-prep-store-v2"
     private static let legacyStorageKey = "morning-prep-store"
+    private static let lastAutoResetKey = "morning-prep-last-auto-reset"
+    private static let autoResetHour = 8
 
     @Published var prep: TomorrowPrep {
         didSet {
             save()
+
+            guard prep.reminderEnabled, Self.isFullyPrepared(prep) != Self.isFullyPrepared(oldValue) else {
+                return
+            }
+
+            Task {
+                _ = await applyReminder(enabled: true, time: prep.reminderTime)
+            }
         }
     }
 
     private let defaults: UserDefaults
     private let notificationManager: NotificationManager
+    private var morningResetTimer: Timer?
 
     convenience init() {
         self.init(defaults: .standard)
@@ -97,6 +108,10 @@ final class PrepStore: ObservableObject {
         prep.items.count + 2
     }
 
+    var isFullyPrepared: Bool {
+        Self.isFullyPrepared(prep)
+    }
+
     private var checkedItemsCount: Int {
         prep.items.filter(\.isChecked).count
     }
@@ -109,13 +124,15 @@ final class PrepStore: ObservableObject {
         prep.items[index].isChecked.toggle()
     }
 
-    func addItem(title: String) {
+    @discardableResult
+    func addItem(title: String) -> Bool {
         let cleanedTitle = title.trimmed
         guard !cleanedTitle.isEmpty else {
-            return
+            return false
         }
 
         prep.items.append(PrepItem(title: cleanedTitle))
+        return true
     }
 
     func removeItems(at offsets: IndexSet) {
@@ -133,6 +150,11 @@ final class PrepStore: ObservableObject {
         prep.outfit = ""
         prep.breakfast = ""
         prep.notes = ""
+    }
+
+    func refreshDailyPrepState(now: Date = Date()) {
+        performMorningResetIfNeeded(now: now)
+        scheduleNextMorningReset(from: now)
     }
 
     func updateOutfit(_ outfit: String) {
@@ -159,7 +181,11 @@ final class PrepStore: ObservableObject {
         prep.reminderTime = time
 
         do {
-            let result = try await notificationManager.syncReminder(enabled: enabled, time: time)
+            let result = try await notificationManager.syncReminder(
+                enabled: enabled,
+                time: time,
+                isFullyPrepared: isFullyPrepared
+            )
 
             switch result {
             case .scheduled:
@@ -178,6 +204,10 @@ final class PrepStore: ObservableObject {
 
     func syncReminderSchedule() async {
         _ = await applyReminder(enabled: prep.reminderEnabled, time: prep.reminderTime)
+    }
+
+    deinit {
+        morningResetTimer?.invalidate()
     }
 
     private func save() {
@@ -222,6 +252,79 @@ final class PrepStore: ObservableObject {
         }
 
         return sanitizedPrep
+    }
+
+    private func performMorningResetIfNeeded(now: Date) {
+        guard let todayAutoResetTime = Self.autoResetTime(on: now), now >= todayAutoResetTime else {
+            return
+        }
+
+        let lastAutoResetAt = defaults.object(forKey: Self.lastAutoResetKey) as? Date ?? .distantPast
+        guard lastAutoResetAt < todayAutoResetTime else {
+            return
+        }
+
+        resetForTomorrow()
+        defaults.set(now, forKey: Self.lastAutoResetKey)
+    }
+
+    private func scheduleNextMorningReset(from now: Date) {
+        morningResetTimer?.invalidate()
+
+        guard let nextAutoResetTime = Self.nextAutoResetTime(after: now) else {
+            return
+        }
+
+        let interval = nextAutoResetTime.timeIntervalSince(now)
+        guard interval > 0 else {
+            return
+        }
+
+        morningResetTimer = Timer.scheduledTimer(withTimeInterval: interval, repeats: false) { [weak self] _ in
+            Task { @MainActor [weak self] in
+                guard let self else {
+                    return
+                }
+
+                self.refreshDailyPrepState()
+            }
+        }
+    }
+
+    private static func autoResetTime(on date: Date) -> Date? {
+        Calendar.current.date(
+            bySettingHour: autoResetHour,
+            minute: 0,
+            second: 0,
+            of: date
+        )
+    }
+
+    private static func nextAutoResetTime(after date: Date) -> Date? {
+        guard let todayAutoResetTime = autoResetTime(on: date) else {
+            return nil
+        }
+
+        if date < todayAutoResetTime {
+            return todayAutoResetTime
+        }
+
+        return Calendar.current.date(byAdding: .day, value: 1, to: todayAutoResetTime)
+    }
+
+    private static func isFullyPrepared(_ prep: TomorrowPrep) -> Bool {
+        let checkedItemsCount = prep.items.filter(\.isChecked).count
+        let completedRequiredSteps =
+            checkedItemsCount
+            + (prep.outfit.trimmed.isEmpty ? 0 : 1)
+            + (prep.breakfast.trimmed.isEmpty ? 0 : 1)
+        let totalRequiredSteps = prep.items.count + 2
+
+        guard totalRequiredSteps > 0 else {
+            return false
+        }
+
+        return completedRequiredSteps >= totalRequiredSteps
     }
 }
 

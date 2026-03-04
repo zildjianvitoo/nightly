@@ -33,13 +33,17 @@ struct SettingsView: View {
             resetSection
         }
         .scrollDismissesKeyboard(.interactively)
-        .simultaneousGesture(
-            TapGesture().onEnded {
-                isAddItemFocused = false
-            }
-        )
         .navigationTitle("Settings")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+
+                Button("Done") {
+                    isAddItemFocused = false
+                }
+            }
+        }
         .alert(item: $reminderAlert) { alert in
             switch alert {
             case .notificationsDenied:
@@ -72,6 +76,8 @@ struct SettingsView: View {
                     .textInputAutocapitalization(.words)
                     .autocorrectionDisabled()
                     .focused($isAddItemFocused)
+                    .submitLabel(.done)
+                    .onSubmit(addItem)
 
                 Button("Add", action: addItem)
                     .disabled(newItemTitle.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
@@ -179,9 +185,13 @@ struct SettingsView: View {
     }
 
     private func addItem() {
-        store.addItem(title: newItemTitle)
+        guard store.addItem(title: newItemTitle) else {
+            return
+        }
+
         newItemTitle = ""
         isAddItemFocused = false
+        dismiss()
     }
 
     private func applyReminder(enabled: Bool, time: Date) async {

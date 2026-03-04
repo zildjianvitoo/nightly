@@ -20,7 +20,7 @@ actor NotificationManager {
     private let center = UNUserNotificationCenter.current()
     private let reminderIdentifier = "morning-prep-nightly-reminder"
 
-    func syncReminder(enabled: Bool, time: Date) async throws -> ReminderSyncResult {
+    func syncReminder(enabled: Bool, time: Date, isFullyPrepared: Bool) async throws -> ReminderSyncResult {
         guard enabled else {
             cancelNightlyReminder()
             return .disabled
@@ -32,7 +32,7 @@ actor NotificationManager {
             return .denied
         }
 
-        try await scheduleNightlyReminder(at: time)
+        try await scheduleNightlyReminder(at: time, isFullyPrepared: isFullyPrepared)
         return .scheduled
     }
 
@@ -51,12 +51,17 @@ actor NotificationManager {
         }
     }
 
-    func scheduleNightlyReminder(at time: Date) async throws {
+    func scheduleNightlyReminder(at time: Date, isFullyPrepared: Bool) async throws {
         cancelNightlyReminder()
 
         let content = UNMutableNotificationContent()
-        content.title = "Prepare for tomorrow"
-        content.body = "Take a minute to set out what you need for the morning."
+        if isFullyPrepared {
+            content.title = "Tomorrow is set"
+            content.body = "Nice work. Everything is ready, so you can wind down for the night."
+        } else {
+            content.title = "Prepare for tomorrow"
+            content.body = "You are not fully ready yet. Take a minute to set out what you need."
+        }
         content.sound = .default
 
         let components = Calendar.current.dateComponents([.hour, .minute], from: time)
