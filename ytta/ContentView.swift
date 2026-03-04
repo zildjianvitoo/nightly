@@ -22,6 +22,7 @@ struct ContentView: View {
                     }
                 }
         }
+        .tint(AppTheme.accent)
     }
 }
 

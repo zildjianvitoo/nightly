@@ -35,7 +35,7 @@ struct ReadinessCardView: View {
         .padding(AppTheme.cardPadding)
         .background(
             RoundedRectangle(cornerRadius: AppTheme.cardCornerRadius, style: .continuous)
-                .fill(AppTheme.surface)
+                .fill(AppTheme.cardSurface)
         )
         .overlay(
             RoundedRectangle(cornerRadius: AppTheme.cardCornerRadius, style: .continuous)
@@ -52,7 +52,7 @@ struct ReadinessCardView: View {
 
             Circle()
                 .trim(from: 0, to: max(store.completionProgress, 0.02))
-                .stroke(statusColor, style: StrokeStyle(lineWidth: 10, lineCap: .round))
+                .stroke(progressStroke, style: StrokeStyle(lineWidth: 10, lineCap: .round))
                 .rotationEffect(.degrees(-90))
 
             VStack(spacing: 2) {
@@ -95,6 +95,29 @@ struct ReadinessCardView: View {
             return AppTheme.accent
         case .readyForTomorrow:
             return AppTheme.success
+        }
+    }
+
+    private var progressStroke: AnyShapeStyle {
+        switch store.readinessStatus {
+        case .notReady:
+            return AnyShapeStyle(statusColor)
+        case .almostReady:
+            return AnyShapeStyle(
+                LinearGradient(
+                    colors: [AppTheme.indigo, AppTheme.periwinkle],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+            )
+        case .readyForTomorrow:
+            return AnyShapeStyle(
+                LinearGradient(
+                    colors: [AppTheme.indigo, AppTheme.periwinkle, AppTheme.blush],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+            )
         }
     }
 }

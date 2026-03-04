@@ -27,7 +27,7 @@ struct PlanSectionView: View {
         .padding(AppTheme.cardPadding)
         .background(
             RoundedRectangle(cornerRadius: AppTheme.cardCornerRadius, style: .continuous)
-                .fill(AppTheme.surface)
+                .fill(AppTheme.cardSurface)
         )
         .overlay(
             RoundedRectangle(cornerRadius: AppTheme.cardCornerRadius, style: .continuous)

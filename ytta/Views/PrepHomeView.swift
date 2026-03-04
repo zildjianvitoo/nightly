@@ -65,7 +65,12 @@ struct PrepHomeView: View {
             .padding(.bottom, 28)
         }
         .scrollDismissesKeyboard(.interactively)
-        .background(AppTheme.background.ignoresSafeArea())
+        .background {
+            ZStack {
+                AppTheme.background.ignoresSafeArea()
+                AppTheme.backgroundGradient.ignoresSafeArea()
+            }
+        }
         .simultaneousGesture(
             TapGesture().onEnded {
                 clearFocus()

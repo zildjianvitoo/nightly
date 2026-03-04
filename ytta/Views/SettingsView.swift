@@ -32,7 +32,14 @@ struct SettingsView: View {
             reminderSection
             resetSection
         }
+        .scrollContentBackground(.hidden)
         .scrollDismissesKeyboard(.interactively)
+        .background {
+            ZStack {
+                AppTheme.background.ignoresSafeArea()
+                AppTheme.backgroundGradient.ignoresSafeArea()
+            }
+        }
         .navigationTitle("Settings")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
