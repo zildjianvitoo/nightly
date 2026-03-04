@@ -7,7 +7,7 @@
         "key": "Prep for Tomorrow",
         "location": {
           "startingColumn": 26,
-          "startingLine": 71
+          "startingLine": 127
         }
       },
       {
@@ -15,7 +15,7 @@
         "key": "Finish tonight in under three minutes.",
         "location": {
           "startingColumn": 18,
-          "startingLine": 77
+          "startingLine": 133
         }
       },
       {
@@ -23,7 +23,7 @@
         "key": "Set out the essentials now so the morning feels lighter.",
         "location": {
           "startingColumn": 18,
-          "startingLine": 81
+          "startingLine": 137
         }
       },
       {
@@ -31,7 +31,7 @@
         "key": "Start with your bag, then outfit, then breakfast.",
         "location": {
           "startingColumn": 23,
-          "startingLine": 86
+          "startingLine": 142
         }
       }
     ]

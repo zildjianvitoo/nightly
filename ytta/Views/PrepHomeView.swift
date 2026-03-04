@@ -12,6 +12,9 @@ struct PrepHomeView: View {
     @FocusState private var isOutfitFocused: Bool
     @FocusState private var isBreakfastFocused: Bool
     @FocusState private var isNotesFocused: Bool
+    @State private var showReadyCelebration = false
+    @State private var lastKnownReadyState = false
+    @State private var celebrationDismissTask: Task<Void, Never>?
 
     var body: some View {
         ScrollView {
@@ -68,6 +71,59 @@ struct PrepHomeView: View {
                 clearFocus()
             }
         )
+        .overlay(alignment: .top) {
+            if showReadyCelebration {
+                ReadyCelebrationView()
+                    .padding(.horizontal, AppTheme.screenPadding)
+                    .padding(.top, 6)
+                    .transition(
+                        .asymmetric(
+                            insertion: .move(edge: .top).combined(with: .opacity),
+                            removal: .scale(scale: 0.96).combined(with: .opacity)
+                        )
+                    )
+                    .zIndex(1)
+            }
+        }
+        .onAppear {
+            lastKnownReadyState = store.isFullyPrepared
+        }
+        .onDisappear {
+            celebrationDismissTask?.cancel()
+        }
+        .onChange(of: store.isFullyPrepared) { _, isFullyPrepared in
+            guard isFullyPrepared != lastKnownReadyState else {
+                return
+            }
+
+            lastKnownReadyState = isFullyPrepared
+            celebrationDismissTask?.cancel()
+
+            guard isFullyPrepared else {
+                withAnimation(.easeOut(duration: 0.5)) {
+                    showReadyCelebration = false
+                }
+                return
+            }
+
+            withAnimation(.spring(duration: 0.45)) {
+                showReadyCelebration = true
+            }
+
+            celebrationDismissTask = Task {
+                try? await Task.sleep(nanoseconds: 2_500_000_000)
+
+                guard !Task.isCancelled else {
+                    return
+                }
+
+                await MainActor.run {
+                    withAnimation(.easeOut(duration: 0.25)) {
+                        showReadyCelebration = false
+                    }
+                }
+            }
+        }
         .navigationTitle("Prep for Tomorrow")
         .navigationBarTitleDisplayMode(.large)
     }
