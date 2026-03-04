@@ -1,0 +1,24 @@
+{
+  "source": "/Users/academy/Desktop/ytta/ytta/Views/ReadinessCardView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "%lld%%",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 59
+        }
+      },
+      {
+        "comment": "",
+        "key": "Ready",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 63
+        }
+      }
+    ]
+  },
+  "version": 1
+}

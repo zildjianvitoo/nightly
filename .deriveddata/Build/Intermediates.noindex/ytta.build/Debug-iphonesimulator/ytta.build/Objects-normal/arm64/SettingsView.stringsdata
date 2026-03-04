@@ -1,0 +1,208 @@
+{
+  "source": "/Users/academy/Desktop/ytta/ytta/Views/SettingsView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Settings",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 41
+        }
+      },
+      {
+        "comment": "",
+        "key": "Reset for tomorrow?",
+        "location": {
+          "startingColumn": 13,
+          "startingLine": 166
+        }
+      },
+      {
+        "comment": "",
+        "key": "Notifications Are Off",
+        "location": {
+          "startingColumn": 33,
+          "startingLine": 47
+        }
+      },
+      {
+        "comment": "",
+        "key": "Enable notifications in Settings to receive your nightly prep reminder.",
+        "location": {
+          "startingColumn": 35,
+          "startingLine": 48
+        }
+      },
+      {
+        "comment": "",
+        "key": "Open Settings",
+        "location": {
+          "startingColumn": 50,
+          "startingLine": 49
+        }
+      },
+      {
+        "comment": "",
+        "key": "Reminder Could Not Be Saved",
+        "location": {
+          "startingColumn": 33,
+          "startingLine": 60
+        }
+      },
+      {
+        "comment": "",
+        "key": "Please try again in a moment.",
+        "location": {
+          "startingColumn": 35,
+          "startingLine": 61
+        }
+      },
+      {
+        "comment": "",
+        "key": "OK",
+        "location": {
+          "startingColumn": 50,
+          "startingLine": 62
+        }
+      },
+      {
+        "comment": "",
+        "key": "Add item",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 71
+        }
+      },
+      {
+        "comment": "",
+        "key": "Add",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 76
+        }
+      },
+      {
+        "comment": "",
+        "key": "Nothing added yet",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 82
+        }
+      },
+      {
+        "comment": "",
+        "key": "Add a few everyday essentials like your charger, bottle, or ID card.",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 85
+        }
+      },
+      {
+        "comment": "",
+        "key": "Default",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 97
+        }
+      },
+      {
+        "comment": "",
+        "key": "Everyday Items",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 106
+        }
+      },
+      {
+        "comment": "",
+        "key": "Swipe left on an item to remove it from tomorrow's checklist.",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 108
+        }
+      },
+      {
+        "comment": "",
+        "key": "Prepare for tomorrow",
+        "location": {
+          "startingColumn": 17,
+          "startingLine": 115
+        }
+      },
+      {
+        "comment": "",
+        "key": "Reminder Time",
+        "location": {
+          "startingColumn": 17,
+          "startingLine": 128
+        }
+      },
+      {
+        "comment": "",
+        "key": "Nightly Reminder",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 145
+        }
+      },
+      {
+        "comment": "",
+        "key": "Saving your nightly reminder...",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 148
+        }
+      },
+      {
+        "comment": "",
+        "key": "A gentle reminder helps keep tomorrow from turning rushed.",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 150
+        }
+      },
+      {
+        "comment": "",
+        "key": "Reset for Tomorrow",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 160
+        }
+      },
+      {
+        "comment": "",
+        "key": "This clears tonight's progress but keeps your saved everyday items.",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 163
+        }
+      },
+      {
+        "comment": "",
+        "key": "Reset",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 170
+        }
+      },
+      {
+        "comment": "",
+        "key": "Cancel",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 175
+        }
+      },
+      {
+        "comment": "",
+        "key": "This clears tonight's progress but keeps your saved everyday items.",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 177
+        }
+      }
+    ]
+  },
+  "version": 1
+}

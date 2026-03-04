@@ -1,0 +1,16 @@
+{
+  "source": "/Users/academy/Desktop/ytta/ytta/Views/ReminderRowView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Nightly Reminder",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 24
+        }
+      }
+    ]
+  },
+  "version": 1
+}

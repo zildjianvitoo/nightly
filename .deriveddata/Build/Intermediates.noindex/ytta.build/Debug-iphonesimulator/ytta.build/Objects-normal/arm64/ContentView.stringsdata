@@ -1,0 +1,16 @@
+{
+  "source": "/Users/academy/Desktop/ytta/ytta/ContentView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Open settings",
+        "location": {
+          "startingColumn": 45,
+          "startingLine": 21
+        }
+      }
+    ]
+  },
+  "version": 1
+}

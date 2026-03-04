@@ -1,0 +1,40 @@
+{
+  "source": "/Users/academy/Desktop/ytta/ytta/Views/PrepHomeView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Prep for Tomorrow",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 71
+        }
+      },
+      {
+        "comment": "",
+        "key": "Finish tonight in under three minutes.",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 77
+        }
+      },
+      {
+        "comment": "",
+        "key": "Set out the essentials now so the morning feels lighter.",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 81
+        }
+      },
+      {
+        "comment": "",
+        "key": "Start with your bag, then outfit, then breakfast.",
+        "location": {
+          "startingColumn": 23,
+          "startingLine": 86
+        }
+      }
+    ]
+  },
+  "version": 1
+}
