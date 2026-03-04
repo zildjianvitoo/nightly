@@ -146,6 +146,16 @@
     "swift-dependencies" : "/Users/academy/Desktop/ytta/.deriveddata/Build/Intermediates.noindex/ytta.build/Debug-iphonesimulator/ytta.build/Objects-normal/x86_64/SettingsView.swiftdeps",
     "swiftmodule" : "/Users/academy/Desktop/ytta/.deriveddata/Build/Intermediates.noindex/ytta.build/Debug-iphonesimulator/ytta.build/Objects-normal/x86_64/SettingsView~partial.swiftmodule"
   },
+  "/Users/academy/Desktop/ytta/ytta/Views/SplashView.swift" : {
+    "const-values" : "/Users/academy/Desktop/ytta/.deriveddata/Build/Intermediates.noindex/ytta.build/Debug-iphonesimulator/ytta.build/Objects-normal/x86_64/SplashView.swiftconstvalues",
+    "dependencies" : "/Users/academy/Desktop/ytta/.deriveddata/Build/Intermediates.noindex/ytta.build/Debug-iphonesimulator/ytta.build/Objects-normal/x86_64/SplashView.d",
+    "diagnostics" : "/Users/academy/Desktop/ytta/.deriveddata/Build/Intermediates.noindex/ytta.build/Debug-iphonesimulator/ytta.build/Objects-normal/x86_64/SplashView.dia",
+    "index-unit-output-path" : "/ytta.build/Debug-iphonesimulator/ytta.build/Objects-normal/x86_64/SplashView.o",
+    "llvm-bc" : "/Users/academy/Desktop/ytta/.deriveddata/Build/Intermediates.noindex/ytta.build/Debug-iphonesimulator/ytta.build/Objects-normal/x86_64/SplashView.bc",
+    "object" : "/Users/academy/Desktop/ytta/.deriveddata/Build/Intermediates.noindex/ytta.build/Debug-iphonesimulator/ytta.build/Objects-normal/x86_64/SplashView.o",
+    "swift-dependencies" : "/Users/academy/Desktop/ytta/.deriveddata/Build/Intermediates.noindex/ytta.build/Debug-iphonesimulator/ytta.build/Objects-normal/x86_64/SplashView.swiftdeps",
+    "swiftmodule" : "/Users/academy/Desktop/ytta/.deriveddata/Build/Intermediates.noindex/ytta.build/Debug-iphonesimulator/ytta.build/Objects-normal/x86_64/SplashView~partial.swiftmodule"
+  },
   "/Users/academy/Desktop/ytta/ytta/yttaApp.swift" : {
     "const-values" : "/Users/academy/Desktop/ytta/.deriveddata/Build/Intermediates.noindex/ytta.build/Debug-iphonesimulator/ytta.build/Objects-normal/x86_64/yttaApp.swiftconstvalues",
     "dependencies" : "/Users/academy/Desktop/ytta/.deriveddata/Build/Intermediates.noindex/ytta.build/Debug-iphonesimulator/ytta.build/Objects-normal/x86_64/yttaApp.d",

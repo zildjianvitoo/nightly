@@ -21,16 +21,25 @@ struct SettingsView: View {
     @Environment(\.openURL) private var openURL
 
     @State private var newItemTitle = ""
-    @State private var showResetConfirmation = false
+    @State private var showResetAlert = false
     @State private var reminderAlert: ReminderAlert?
     @State private var isUpdatingReminder = false
     @FocusState private var isAddItemFocused: Bool
 
+    var isInitialSetup = false
+    var onInitialSetupCompleted: (() -> Void)?
+
     var body: some View {
         Form {
-            everydayItemsSection
-            reminderSection
-            resetSection
+            if isInitialSetup {
+                initialSetupSection
+                reminderSection
+                everydayItemsSection
+            } else {
+                everydayItemsSection
+                reminderSection
+                resetSection
+            }
         }
         .scrollContentBackground(.hidden)
         .scrollDismissesKeyboard(.interactively)
@@ -40,14 +49,20 @@ struct SettingsView: View {
                 AppTheme.backgroundGradient.ignoresSafeArea()
             }
         }
-        .navigationTitle("Settings")
-        .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle(isInitialSetup ? "Nightly Setup" : "Settings")
+        .navigationBarTitleDisplayMode(isInitialSetup ? .large : .inline)
         .toolbar {
             ToolbarItemGroup(placement: .keyboard) {
                 Spacer()
 
                 Button("Done") {
                     isAddItemFocused = false
+                }
+            }
+
+            if isInitialSetup {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Continue", action: completeInitialSetup)
                 }
             }
         }
@@ -73,6 +88,16 @@ struct SettingsView: View {
                     dismissButton: .default(Text("OK"))
                 )
             }
+        }
+        .alert("Reset for tomorrow?", isPresented: $showResetAlert) {
+            Button("Reset", role: .destructive) {
+                store.resetForTomorrow()
+                dismiss()
+            }
+
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("This clears tonight's progress but keeps your saved everyday items.")
         }
     }
 
@@ -122,6 +147,21 @@ struct SettingsView: View {
         }
     }
 
+    private var initialSetupSection: some View {
+        Section {
+            VStack(alignment: .leading, spacing: 6) {
+                Text("Set Your Nightly Reminder")
+                    .font(.headline)
+                    .foregroundStyle(AppTheme.textPrimary)
+
+                Text("Choose a time so Nightly can remind you to prep before bed.")
+                    .font(.footnote)
+                    .foregroundStyle(AppTheme.textSecondary)
+            }
+            .padding(.vertical, 4)
+        }
+    }
+
     private var reminderSection: some View {
         Section {
             Toggle(
@@ -153,6 +193,7 @@ struct SettingsView: View {
                 ),
                 displayedComponents: .hourAndMinute
             )
+            .opacity(store.prep.reminderEnabled ? 1 : 0.5)
             .disabled(!store.prep.reminderEnabled || isUpdatingReminder)
         } header: {
             Text("Nightly Reminder")
@@ -168,25 +209,11 @@ struct SettingsView: View {
     private var resetSection: some View {
         Section {
             Button(role: .destructive) {
-                showResetConfirmation = true
+                showResetAlert = true
             } label: {
                 Text("Reset for Tomorrow")
             }
         } footer: {
-            Text("This clears tonight's progress but keeps your saved everyday items.")
-        }
-        .confirmationDialog(
-            "Reset for tomorrow?",
-            isPresented: $showResetConfirmation,
-            titleVisibility: .visible
-        ) {
-            Button("Reset", role: .destructive) {
-                store.resetForTomorrow()
-                dismiss()
-            }
-
-            Button("Cancel", role: .cancel) {}
-        } message: {
             Text("This clears tonight's progress but keeps your saved everyday items.")
         }
     }
@@ -214,6 +241,11 @@ struct SettingsView: View {
         case .none:
             reminderAlert = .reminderFailed
         }
+    }
+
+    private func completeInitialSetup() {
+        onInitialSetupCompleted?()
+        dismiss()
     }
 }
 

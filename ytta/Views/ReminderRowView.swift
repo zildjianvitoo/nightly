@@ -15,17 +15,17 @@ struct ReminderRowView: View {
             SettingsView()
         } label: {
             HStack(spacing: 14) {
-                Image(systemName: store.prep.reminderEnabled ? "bell.badge.fill" : "bell")
+                Image(systemName: "plus.circle.fill")
                     .font(.title3)
-                    .foregroundStyle(store.prep.reminderEnabled ? AppTheme.accent : AppTheme.textSecondary)
+                    .foregroundStyle(AppTheme.accent)
                     .frame(width: 28)
 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Nightly Reminder")
+                    Text("Prep Center")
                         .font(.headline)
                         .foregroundStyle(AppTheme.textPrimary)
 
-                    Text(reminderDescription)
+                    Text(actionDescription)
                         .font(.subheadline)
                         .foregroundStyle(AppTheme.textSecondary)
                 }
@@ -49,12 +49,12 @@ struct ReminderRowView: View {
         .buttonStyle(.plain)
     }
 
-    private var reminderDescription: String {
+    private var actionDescription: String {
         if store.prep.reminderEnabled {
-            return "Every night at \(store.prep.reminderTime.formatted(date: .omitted, time: .shortened))"
+            return "Items and reminder set for \(store.prep.reminderTime.formatted(date: .omitted, time: .shortened))."
         }
 
-        return "Night reminder is off. Tap to set one."
+        return "Organize your checklist and nightly reminder."
     }
 }
 

@@ -8,21 +8,30 @@
 import SwiftUI
 
 struct ContentView: View {
+    @AppStorage("hasCompletedInitialReminderSetup") private var hasCompletedInitialReminderSetup = false
+    @State private var showInitialReminderSetup = false
+
     var body: some View {
         NavigationStack {
             PrepHomeView()
-                .toolbar {
-                    ToolbarItem(placement: .topBarTrailing) {
-                        NavigationLink {
-                            SettingsView()
-                        } label: {
-                            Image(systemName: "slider.horizontal.3")
-                        }
-                        .accessibilityLabel("Open settings")
-                    }
-                }
         }
         .tint(AppTheme.accent)
+        .onAppear {
+            if !hasCompletedInitialReminderSetup {
+                showInitialReminderSetup = true
+            }
+        }
+        .fullScreenCover(isPresented: $showInitialReminderSetup) {
+            NavigationStack {
+                SettingsView(
+                    isInitialSetup: true,
+                    onInitialSetupCompleted: {
+                        hasCompletedInitialReminderSetup = true
+                        showInitialReminderSetup = false
+                    }
+                )
+            }
+        }
     }
 }
 

@@ -25,7 +25,8 @@ final class PrepStore: ObservableObject {
         didSet {
             save()
 
-            guard prep.reminderEnabled, Self.isFullyPrepared(prep) != Self.isFullyPrepared(oldValue) else {
+            guard prep.reminderEnabled,
+                  Self.remainingRequiredSteps(for: prep) != Self.remainingRequiredSteps(for: oldValue) else {
                 return
             }
 
@@ -112,6 +113,10 @@ final class PrepStore: ObservableObject {
         Self.isFullyPrepared(prep)
     }
 
+    var remainingRequiredSteps: Int {
+        Self.remainingRequiredSteps(for: prep)
+    }
+
     private var checkedItemsCount: Int {
         prep.items.filter(\.isChecked).count
     }
@@ -184,7 +189,8 @@ final class PrepStore: ObservableObject {
             let result = try await notificationManager.syncReminder(
                 enabled: enabled,
                 time: time,
-                isFullyPrepared: isFullyPrepared
+                isFullyPrepared: isFullyPrepared,
+                remainingItemsCount: remainingRequiredSteps
             )
 
             switch result {
@@ -313,6 +319,10 @@ final class PrepStore: ObservableObject {
     }
 
     private static func isFullyPrepared(_ prep: TomorrowPrep) -> Bool {
+        remainingRequiredSteps(for: prep) == 0
+    }
+
+    private static func remainingRequiredSteps(for prep: TomorrowPrep) -> Int {
         let checkedItemsCount = prep.items.filter(\.isChecked).count
         let completedRequiredSteps =
             checkedItemsCount
@@ -320,11 +330,7 @@ final class PrepStore: ObservableObject {
             + (prep.breakfast.trimmed.isEmpty ? 0 : 1)
         let totalRequiredSteps = prep.items.count + 2
 
-        guard totalRequiredSteps > 0 else {
-            return false
-        }
-
-        return completedRequiredSteps >= totalRequiredSteps
+        return max(totalRequiredSteps - completedRequiredSteps, 0)
     }
 }
 

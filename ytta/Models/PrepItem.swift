@@ -31,7 +31,8 @@ extension PrepItem {
         PrepItem(title: "Charger", isDefault: true),
         PrepItem(title: "Bottle", isDefault: true),
         PrepItem(title: "ID Card", isDefault: true),
-        PrepItem(title: "Laptop", isDefault: true),
-        PrepItem(title: "Notebook", isDefault: true),
+        PrepItem(title: "Macbook", isDefault: true),
+        PrepItem(title: "Binder", isDefault: true),
+        PrepItem(title: "Iphone", isDefault: true),
     ]
 }
